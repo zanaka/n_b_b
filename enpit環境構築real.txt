@@ -1,0 +1,104 @@
+#Railsの環境構築一通り
+#bash使ってる人は,.zshrcを.bashrcにして設定を行うように.
+
+1. Vagrant(https://www.vagrantup.com/)をダウンロードして、展開、インストールしてください。
+
+2. VirtualBox(https://www.virtualbox.org/)をダウンロードして、展開、インストールしてください。
+
+3. GitHub(https://github.com/)にユーザー登録してください。
+
+4. Heroku(https://www.heroku.com/)にユーザー登録してください。
+
+5. TravisCI(https://travis-ci.org/)にGitHubアカウントでログインして、登録してください。
+右上の"Sign in with GitHub"からできます。
+
+6. Vagrantの設定を行います。
+6.1. 作業用ディレクトリを作って、vagrantの初期設定を行います。
+mkdir enpit #フォルダ名が違うとうまくいかないようです。
+cd enpit #作業ディレクトリに移動する
+vagrant init ychubachi/enpit  #産技大の先生の初期設定ファイルを適用して設定する
+
+6.2 Vagrantfileを編集する。これはローカルサーバーを参照するために必要です。
+Vagrantfileは作業ディレクトリの下にあります。
+変更前
+# config.vm.network "forwarded_port", guest: 80, host: 8080
+変更後
+config.vm.network "forwarded_port", guest: 3000, host: 3000
+config.vm.network "forwarded_port", guest: 4567, host: 4567
+
+6.3 開発環境を立ち上げます。
+vagrant up #これに1時間くらいかかります。
+7. gitをインストールする
+7.1 Homebrewでインストールされているか確認する
+(macで標準インストールされていても別にインストールする)
+brew list
+このリストの中にgitが表示されていなければ、
+Homebrewでインストールされていないので、7.2へ進む。
+インストールされていれば、アップデートして最新版にするだけでOK。
+
+7.2 gitをインストールする
+brew install git  #インストール実行, 最後の行に表示されるバージョンを確認する(x.x.x)
+export PATH="/usr/local/Cellar/git/x.x.x/bin:$PATH"  #パスを設定
+source ~/.zshrc #パスを有効化
+git --version #バージョン確認、インストールされたバージョンが表示されればOK
+
+
+8. GitHubと連携する
+8.1 必要なファイルを作業ディレクト(enpit)にダウンロードする
+https://gist.github.com/ychubachi/6491682
+
+8.2 GitHubと連携する
+sh GitHub-connect.sh #最後に暗号のような文字列が表示されて公開鍵が送られたらOK
+
+
+9. Gitの個人設定を変更する
+git config -l #個人設定一覧を確認する
+git config --global user.name XXX #XXXにユーザー名を入れる
+git config --global color.ui auto #gitのシンタックスハイライトを入れる
+git config --global push.default simple #pushの方法を設定する
+git config -l #設定変更に間違いがないか確認する
+
+10. rbenvをインストールする(rubyのバージョン管理に使う)
+brew install rbenv #rbenvをインストールする #インストールされたバージョンを確認する(x.x.x)
+export PATH=/usr/local/Cellar/rbenv/x.x.x/gin:$PATH #パスを設定する
+eval "$(rbenv init -)" #rbenvを使う初期準備
+source ~/.zshrc #パスを有効化
+
+11. ruby-buildをインストールする (これが本当にいるのかわからない)
+brew install ruby-build
+
+12. rubyをインストールする
+brew install ruby
+export PATH=/usr/local/Cellar/ruby/2.4.1_1/bin:$PATH
+(2.4.1_1はバージョンによって違います。フォルダを確認してから進めてください)
+eval "$(rbenv init -)"
+source ~/.zshrc
+rbenv global 2.4.1  #インストールしたversionを使うように設定、数字は必要に応じて変更
+ruby -v #これで一個前のプロセスで設定したversionになっていればOK
+
+13. bundlerをインストールする
+gem install bundler
+
+14. railsをインストールする
+gem install rails #インストールしたversionを覚えておく
+========できない人
+gem install nokogiri -v '1.7.2' #を実行してみる
+できない場合は、
+brew uninstall xz #をする.　xzはファイルの圧縮ツール。
+これで# gem install nokogiri -v '1.7.2' できるはず。
+できたらもう一度gem install rails #
+========
+gem search --local #リストの中にrailsがあることを確認する
+rbenv rehash #設定更新
+source ~/.zshrc
+rails -v #インストールしたversionが表示されればOK
+
+15. Herokuをインストール, 公開鍵を送る
+gem install heroku
+heroku login #herokuのidとpassを入れてログインする
+heroku keys:add #公開鍵を送る。怪しい記号列が表示されたらOK
+
+16. postgresqlをインストール
+brew install postgresql
+export PGDATA=/usr/local/var/postgres
+source ~/.zshrc
