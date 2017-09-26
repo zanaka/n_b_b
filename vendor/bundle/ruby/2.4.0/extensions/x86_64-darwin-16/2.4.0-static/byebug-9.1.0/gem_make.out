@@ -1,0 +1,19 @@
+current directory: /Users/e155745/Desktop/n_b_b/nbb_app/vendor/bundle/ruby/2.4.0/gems/byebug-9.1.0/ext/byebug
+/Users/e155745/.rbenv/versions/2.4.1/bin/ruby -r ./siteconf20170926-7699-qt5yf0.rb extconf.rb
+creating Makefile
+
+current directory: /Users/e155745/Desktop/n_b_b/nbb_app/vendor/bundle/ruby/2.4.0/gems/byebug-9.1.0/ext/byebug
+make "DESTDIR=" clean
+
+current directory: /Users/e155745/Desktop/n_b_b/nbb_app/vendor/bundle/ruby/2.4.0/gems/byebug-9.1.0/ext/byebug
+make "DESTDIR="
+compiling breakpoint.c
+compiling byebug.c
+compiling context.c
+compiling locker.c
+compiling threads.c
+linking shared-object byebug/byebug.bundle
+
+current directory: /Users/e155745/Desktop/n_b_b/nbb_app/vendor/bundle/ruby/2.4.0/gems/byebug-9.1.0/ext/byebug
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 byebug.bundle ./.gem.20170926-7699-18e6a1b/byebug
